@@ -6,6 +6,7 @@
  */
 
 #include <gpio.h>
+#include <pwm.h>
 
 #include "app_gpio.h"
 #include "ble_mesh.h"
@@ -20,6 +21,9 @@
 #include <mgmt/smp_bt.h>
 #include "smp_svr.h"
 #endif
+
+#define PERIOD (USEC_PER_SEC / 50U)
+
 
 static bool reset;
 
@@ -123,29 +127,7 @@ void update_led_gpio(void)
 
 	printk("power-> %d, color-> %d\n", power, color);
 
-	if (lightness) {
-		/* LED1 On */
-		gpio_pin_write(led_device[0], LED0_GPIO_PIN, 0);
-	} else {
-		/* LED1 Off */
-		gpio_pin_write(led_device[0], LED0_GPIO_PIN, 1);
-	}
-
-	if (power < 50) {
-		/* LED3 On */
-		gpio_pin_write(led_device[2], LED2_GPIO_PIN, 0);
-	} else {
-		/* LED3 Off */
-		gpio_pin_write(led_device[2], LED2_GPIO_PIN, 1);
-	}
-
-	if (color < 50) {
-		/* LED4 On */
-		gpio_pin_write(led_device[3], LED3_GPIO_PIN, 0);
-	} else {
-		/* LED4 Off */
-		gpio_pin_write(led_device[3], LED3_GPIO_PIN, 1);
-	}
+	pwm_pin_set_usec(led_device[0], LED0_GPIO_PIN,PERIOD, (power * 10));
 }
 
 void update_light_state(void)

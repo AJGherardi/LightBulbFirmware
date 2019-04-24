@@ -26,10 +26,8 @@ void app_gpio_init(void)
 
 	/* LEDs configuration & setting */
 
-	led_device[0] = device_get_binding(LED0_GPIO_CONTROLLER);
-	gpio_pin_configure(led_device[0], LED0_GPIO_PIN,
-			   GPIO_DIR_OUT | GPIO_PUD_PULL_UP);
-	gpio_pin_write(led_device[0], LED0_GPIO_PIN, 1);
+	led_device[0] = device_get_binding(DT_NORDIC_NRF_PWM_PWM_0_LABEL);
+
 
 	led_device[1] = device_get_binding(LED1_GPIO_CONTROLLER);
 	gpio_pin_configure(led_device[1], LED1_GPIO_PIN,
