@@ -127,7 +127,8 @@ void update_led_gpio(void)
 
 	printk("power-> %d, color-> %d\n", power, color);
 
-	pwm_pin_set_usec(led_device[0], LED0_GPIO_PIN,PERIOD, (power * 10));
+	pwm_pin_set_usec(led_device, LED0_GPIO_PIN,PERIOD, (power * 10));
+	pwm_pin_set_usec(led_device,LED1_GPIO_PIN,PERIOD,(power * 5));
 }
 
 void update_light_state(void)

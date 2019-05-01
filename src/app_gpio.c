@@ -9,7 +9,7 @@
 
 #include "publisher.h"
 
-struct device *led_device[4];
+struct device *led_device;
 struct device *button_device[4];
 
 K_WORK_DEFINE(button_work, publish);
@@ -24,25 +24,9 @@ void app_gpio_init(void)
 {
 	static struct gpio_callback button_cb[4];
 
-	/* LEDs configuration & setting */
+	/* LED controler configuration & setting */
 
-	led_device[0] = device_get_binding(DT_NORDIC_NRF_PWM_PWM_0_LABEL);
-
-
-	led_device[1] = device_get_binding(LED1_GPIO_CONTROLLER);
-	gpio_pin_configure(led_device[1], LED1_GPIO_PIN,
-			   GPIO_DIR_OUT | GPIO_PUD_PULL_UP);
-	gpio_pin_write(led_device[1], LED1_GPIO_PIN, 1);
-
-	led_device[2] = device_get_binding(LED2_GPIO_CONTROLLER);
-	gpio_pin_configure(led_device[2], LED2_GPIO_PIN,
-			   GPIO_DIR_OUT | GPIO_PUD_PULL_UP);
-	gpio_pin_write(led_device[2], LED2_GPIO_PIN, 1);
-
-	led_device[3] = device_get_binding(LED3_GPIO_CONTROLLER);
-	gpio_pin_configure(led_device[3], LED3_GPIO_PIN,
-			   GPIO_DIR_OUT | GPIO_PUD_PULL_UP);
-	gpio_pin_write(led_device[3], LED3_GPIO_PIN, 1);
+	led_device = device_get_binding(DT_NORDIC_NRF_PWM_PWM_0_LABEL);
 
 	/* Buttons configuration & setting */
 
