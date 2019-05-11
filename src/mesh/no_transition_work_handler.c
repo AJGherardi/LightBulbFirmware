@@ -1,10 +1,3 @@
-/* Bluetooth: Mesh Generic OnOff, Generic Level, Lighting & Vendor Models
- *
- * Copyright (c) 2018 Vikrant More
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 #include "common.h"
 #include "ble_mesh.h"
 #include "device_composition.h"

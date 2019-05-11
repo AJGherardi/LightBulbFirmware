@@ -1,10 +1,3 @@
-/* Bluetooth: Mesh Generic OnOff, Generic Level, Lighting & Vendor Models
- *
- * Copyright (c) 2018 Vikrant More
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 #include <gpio.h>
 
 #include "app_gpio.h"
@@ -64,6 +57,9 @@ BT_MESH_MODEL_PUB_DEFINE(light_lightness_cli_pub, NULL, 2 + 5);
 BT_MESH_MODEL_PUB_DEFINE(light_ctl_srv_pub, NULL, 2 + 9);
 BT_MESH_MODEL_PUB_DEFINE(light_ctl_cli_pub, NULL, 2 + 9);
 
+BT_MESH_MODEL_PUB_DEFINE(light_hsl_srv_pub, NULL, 2 + 9);
+BT_MESH_MODEL_PUB_DEFINE(light_hsl_cli_pub, NULL, 2 + 9);
+
 BT_MESH_MODEL_PUB_DEFINE(vnd_pub, NULL, 3 + 6);
 
 BT_MESH_MODEL_PUB_DEFINE(gen_level_srv_pub_s0, NULL, 2 + 5);
@@ -88,6 +84,10 @@ struct light_lightness_state light_lightness_srv_user_data = {
 };
 
 struct light_ctl_state light_ctl_srv_user_data = {
+	.transition = &lightness_transition,
+};
+
+struct light_ctl_state light_hsl_srv_user_data = {
 	.transition = &lightness_transition,
 };
 
@@ -2442,6 +2442,12 @@ static void light_ctl_temp_set(struct bt_mesh_model *model,
 	light_ctl_temp_handler(state);
 }
 
+static void light_hsl_get(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+	
+}
 /* message handlers (End) */
 
 /* Mapping of message handlers for Generic OnOff Server (0x1000) */
@@ -2580,6 +2586,30 @@ static const struct bt_mesh_model_op light_ctl_temp_srv_op[] = {
 	BT_MESH_MODEL_OP_END,
 };
 
+/* Mapping of message handlers for Light HSL. Server (0x1307) */
+static const struct bt_mesh_model_op light_hsl_srv_op[] =  {
+	{ BT_MESH_MODEL_OP_2(0x82, 0x6D), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x6E), 0, light_hsl_hue_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x6F), 0, light_hsl_hue_set },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x70), 0, light_hsl_hue_set_unack },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x71), 0, light_hsl_hue_status },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x72), 0, light_hsl_saturation_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x73), 0, light_hsl_saturation_set },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x74), 0, light_hsl_saturation_set_unack },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x75), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x76), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x77), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x78), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x79), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x7A), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x7B), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x7C), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x7D), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x7E), 0, light_hsl_get },
+	BT_MESH_MODEL_OP_END,
+};
+
+
 /* Mapping of message handlers for Vendor (0x4321) */
 static const struct bt_mesh_model_op vnd_ops[] = {
 	{ BT_MESH_MODEL_OP_3(0x01, CID_ZEPHYR), 0, vnd_get },
@@ -2647,6 +2677,10 @@ struct bt_mesh_model root_models[] = {
 	BT_MESH_MODEL(BT_MESH_MODEL_ID_LIGHT_CTL_CLI,
 		      light_ctl_cli_op, &light_ctl_cli_pub,
 		      NULL),
+
+	BT_MESH_MODEL(BT_MESH_MODEL_ID_LIGHT_HSL_SRV,
+			  light_hsl_srv_op, &light_hsl_srv_pub,
+			  &light_hsl_srv_user_data),
 };
 
 struct bt_mesh_model vnd_models[] = {
