@@ -87,7 +87,7 @@ struct light_ctl_state light_ctl_srv_user_data = {
 	.transition = &lightness_transition,
 };
 
-struct light_ctl_state light_hsl_srv_user_data = {
+struct light_hsl_state light_hsl_srv_user_data = {
 	.transition = &lightness_transition,
 };
 
@@ -2442,12 +2442,115 @@ static void light_ctl_temp_set(struct bt_mesh_model *model,
 	light_ctl_temp_handler(state);
 }
 
+/* Light HSL. Server message handlers */
 static void light_hsl_get(struct bt_mesh_model *model,
 				   struct bt_mesh_msg_ctx *ctx,
 				   struct net_buf_simple *buf)
 {
-	
 }
+
+static void light_hsl_hue_get(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_hue_set(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_hue_set_unack(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_hue_status(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_saturation_get(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_saturation_set(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_saturation_set_unack(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_saturation_status(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_set(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_set_unack(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_status(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_target_get(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_target_status(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_default_get(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_default_status(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_range_get(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
+static void light_hsl_range_status(struct bt_mesh_model *model,
+				   struct bt_mesh_msg_ctx *ctx,
+				   struct net_buf_simple *buf)
+{
+}
+
 /* message handlers (End) */
 
 /* Mapping of message handlers for Generic OnOff Server (0x1000) */
@@ -2522,8 +2625,7 @@ static const struct bt_mesh_model_op light_lightness_srv_op[] = {
 	{ BT_MESH_MODEL_OP_2(0x82, 0x4D), 3, light_lightness_set_unack },
 	{ BT_MESH_MODEL_OP_2(0x82, 0x4F), 0, light_lightness_linear_get },
 	{ BT_MESH_MODEL_OP_2(0x82, 0x50), 3, light_lightness_linear_set },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x51), 3,
-	  light_lightness_linear_set_unack },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x51), 3, light_lightness_linear_set_unack },
 	{ BT_MESH_MODEL_OP_2(0x82, 0x53), 0, light_lightness_last_get },
 	{ BT_MESH_MODEL_OP_2(0x82, 0x55), 0, light_lightness_default_get },
 	{ BT_MESH_MODEL_OP_2(0x82, 0x57), 0, light_lightness_range_get },
@@ -2533,8 +2635,7 @@ static const struct bt_mesh_model_op light_lightness_srv_op[] = {
 /* Mapping of message handlers for Light Lightness Setup Server (0x1301) */
 static const struct bt_mesh_model_op light_lightness_setup_srv_op[] = {
 	{ BT_MESH_MODEL_OP_2(0x82, 0x59), 2, light_lightness_default_set },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x5A), 2,
-	  light_lightness_default_set_unack },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x5A), 2, light_lightness_default_set_unack },
 	{ BT_MESH_MODEL_OP_2(0x82, 0x5B), 4, light_lightness_range_set },
 	{ BT_MESH_MODEL_OP_2(0x82, 0x5C), 4, light_lightness_range_set_unack },
 	BT_MESH_MODEL_OP_END,
@@ -2590,22 +2691,22 @@ static const struct bt_mesh_model_op light_ctl_temp_srv_op[] = {
 static const struct bt_mesh_model_op light_hsl_srv_op[] =  {
 	{ BT_MESH_MODEL_OP_2(0x82, 0x6D), 0, light_hsl_get },
 	{ BT_MESH_MODEL_OP_2(0x82, 0x6E), 0, light_hsl_hue_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x6F), 0, light_hsl_hue_set },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x70), 0, light_hsl_hue_set_unack },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x71), 0, light_hsl_hue_status },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x6F), 3, light_hsl_hue_set },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x70), 3, light_hsl_hue_set_unack },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x71), 2, light_hsl_hue_status },
 	{ BT_MESH_MODEL_OP_2(0x82, 0x72), 0, light_hsl_saturation_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x73), 0, light_hsl_saturation_set },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x74), 0, light_hsl_saturation_set_unack },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x75), 0, light_hsl_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x76), 0, light_hsl_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x77), 0, light_hsl_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x78), 0, light_hsl_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x79), 0, light_hsl_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x7A), 0, light_hsl_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x7B), 0, light_hsl_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x7C), 0, light_hsl_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x7D), 0, light_hsl_get },
-	{ BT_MESH_MODEL_OP_2(0x82, 0x7E), 0, light_hsl_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x73), 3, light_hsl_saturation_set },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x74), 3, light_hsl_saturation_set_unack },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x75), 2, light_hsl_saturation_status },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x76), 7, light_hsl_set },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x77), 7, light_hsl_set_unack },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x78), 6, light_hsl_status },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x79), 0, light_hsl_target_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x7A), 6, light_hsl_target_status },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x7B), 0, light_hsl_default_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x7C), 6, light_hsl_default_status },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x7D), 0, light_hsl_range_get },
+	{ BT_MESH_MODEL_OP_2(0x82, 0x7E), 9, light_hsl_range_status },
 	BT_MESH_MODEL_OP_END,
 };
 

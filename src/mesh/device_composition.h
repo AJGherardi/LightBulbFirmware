@@ -127,6 +127,12 @@ struct light_ctl_state {
 	struct transition *transition;
 };
 
+struct light_hsl_state {
+
+
+	struct transition *transition;
+};
+
 extern struct generic_onoff_state gen_onoff_srv_root_user_data;
 extern struct generic_level_state gen_level_srv_root_user_data;
 extern struct gen_def_trans_time_state gen_def_trans_time_srv_user_data;
@@ -134,6 +140,7 @@ extern struct generic_onpowerup_state gen_power_onoff_srv_user_data;
 extern struct light_lightness_state light_lightness_srv_user_data;
 extern struct light_ctl_state light_ctl_srv_user_data;
 extern struct generic_level_state gen_level_srv_s0_user_data;
+extern struct light_hsl_state light_hsl_srv_user_data;
 
 extern struct bt_mesh_model root_models[];
 extern struct bt_mesh_model vnd_models[];
