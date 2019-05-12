@@ -87,9 +87,8 @@ struct light_ctl_state light_ctl_srv_user_data = {
 	.transition = &lightness_transition,
 };
 
-struct light_hsl_state light_hsl_srv_user_data = {
-	.transition = &lightness_transition,
-};
+struct light_hsl_state light_hsl_srv_user_data;
+
 
 struct vendor_state vnd_user_data;
 
@@ -2447,6 +2446,17 @@ static void light_hsl_get(struct bt_mesh_model *model,
 				   struct bt_mesh_msg_ctx *ctx,
 				   struct net_buf_simple *buf)
 {
+	struct net_buf_simple *msg = NET_BUF_SIMPLE(2 + 6 + 4);
+	struct light_hsl_state *state = model->user_data;
+
+	bt_mesh_model_msg_init(msg, BT_MESH_MODEL_LIGHT_HSL_STATUS);
+	net_buf_simple_add_le16(msg, state->lightness);
+	net_buf_simple_add_le16(msg, state->hue);
+	net_buf_simple_add_le16(msg, state->saturation);
+
+	if (bt_mesh_model_send(model, ctx, msg, NULL, NULL)) {
+		printk("Unable to send LightHSL Status response\n");
+	}
 }
 
 static void light_hsl_hue_get(struct bt_mesh_model *model,
@@ -2513,6 +2523,10 @@ static void light_hsl_status(struct bt_mesh_model *model,
 				   struct bt_mesh_msg_ctx *ctx,
 				   struct net_buf_simple *buf)
 {
+	printk("Acknownledgement from LIGHT_HSL_SRV (Default)\n");
+	printk("Lightness = %04x\n", net_buf_simple_pull_le16(buf));
+	printk("Hue = %04x\n", net_buf_simple_pull_le16(buf));
+	printk("Saturation = %04x\n", net_buf_simple_pull_le16(buf));
 }
 
 static void light_hsl_target_get(struct bt_mesh_model *model,

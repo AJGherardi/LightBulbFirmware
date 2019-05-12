@@ -128,7 +128,11 @@ struct light_ctl_state {
 };
 
 struct light_hsl_state {
+	u16_t lightness;
 
+	u16_t hue;
+
+	u16_t saturation;
 
 	struct transition *transition;
 };
